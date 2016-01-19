@@ -1,0 +1,16 @@
+
+### NGS ENVIRONMENT
+export NGS_DATA="${HOME}/NGS_Data"
+export NGS_TOOL="${HOME}/NGS_Tools"
+
+export ref=${NGS_DATA}/Reference
+export GRCh37=${ref}/GRCh37/human_g1k_v37.fasta
+export ncbi36=${ref}/ncbi36/human_b36_female.fa
+export hg19=${ref}/hg19/hg19.fa
+export hs37d5=${ref}/hs37d5/hs37d5.fa
+
+export picard="${NGS_TOOL}/picard-tools-1.126/picard.jar"
+export GATK="${NGS_TOOL}/GenomeAnalysisTK-3.3-0/GenomeAnalysisTK.jar"
+export varscan="${NGS_TOOL}/VarScan-2.3.7/VarScan.v2.3.7.jar"
+export PRISM_PATH="${NGS_TOOL}/PRISM_1_1_6"
+export genome_strip="${NGS_TOOL}/svtoolkit"

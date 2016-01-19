@@ -1,0 +1,10 @@
+#!/bin/sh
+
+if [ $# -lt 3 ]
+then 
+	echo "Usage: easy-predict test_file model_file output_file"
+	echo "       need train.range in current dir"
+else
+	formatDataToLibsvm $1 $1.data
+	svm-scale -r train.range $1.data > $1.data.scale && svm-predict $1.data.scale $2 $3
+fi
