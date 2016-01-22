@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 . 0.0.env.sh
 
@@ -34,5 +34,6 @@ grep chrom11 res.validated.txt > res.validated.chrom11.txt
 grep chrom20 res.validated.txt > res.validated.chrom20.txt
 
 status=res._e${diffP}_m${diffM}.txt
+echo -n "validated:" >> $status
 awk '{a+=$2; b+=$3; c+=$4; d+=$5} END{printf("\t%.4f\t%.4f\n", c/a, d/b)}' res.validated.txt >> $status
 
