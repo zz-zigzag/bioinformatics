@@ -19,6 +19,7 @@ typedef struct
     char benchmark_chrom[100];
     int benchmark_brk1, benchmark_brk2, benchmark_svlen;
     bool flag_find;
+    int _diff_;
 }benchmark_var;
 static int usage()
 {
@@ -59,7 +60,7 @@ int getFileRowsNumber(char *filename)
 int main(int argc, char* argv[])
 {
     char c;
-    double percent_diff = 0.1;
+    double percent_diff = 0.3;
     int max_diff = 100;
     while((c = getopt(argc, argv, "e:m:")) != EOF) {
         switch(c) {
@@ -84,92 +85,59 @@ int main(int argc, char* argv[])
     benchmark = (benchmark_var *)malloc (benchmark_cnt * sizeof(benchmark_var));
     memset(benchmark, 0, benchmark_cnt * sizeof(benchmark_var));
 
-    int i = 0, j = 0;
+    int i, j;
     char str[1000];
+    i = 0;
     while(fgets(str, sizeof(str), fp_call) != NULL){
         sscanf(str, "%s%d%d", call[i].call_chrom, &call[i].call_brk1, &call[i].call_brk2);
         i++;
     }
     call_cnt = i;
+    if (call_cnt == 0) return 1;
+    j = 0;
+    int benchmark_overlap = 0;
     while(fgets(str, sizeof(str), fp_benchmark) != NULL) {
         sscanf(str, "%s%d%d", benchmark[j].benchmark_chrom, &benchmark[j].benchmark_brk1, &benchmark[j].benchmark_brk2);
-        benchmark[j].benchmark_svlen = benchmark[j].benchmark_brk2 - benchmark[j].benchmark_brk1 - 1;
-        j++;
-    }
-    benchmark_cnt = j;
-
-    int right, call_overlap, benchmark_overlap;
-    right = call_overlap = benchmark_overlap = 0;
-
-    j = 0;
-    while(j < benchmark_cnt) {
+        benchmark[j].benchmark_svlen = benchmark[j].benchmark_brk2 - benchmark[j].benchmark_brk1;
+        benchmark[j]._diff_ = benchmark[j].benchmark_svlen * percent_diff;
+        if (benchmark[j]._diff_ > max_diff) benchmark[j]._diff_ = max_diff;
         if(j > 0 && benchmark[j].benchmark_brk1 < benchmark[j-1].benchmark_brk2)
             benchmark_overlap++;
         j++;
     }
+    benchmark_cnt = j;
+    if (benchmark_cnt == 0) return 1;
+    int right = 0;
 
     i = j = 0;
-    while(i < call_cnt && j < benchmark_cnt)
-    {
-        /*
-        if(i > 0 && call[i].call_brk1 < call[i-1].call_brk2)
-        {
-            call_overlap++;
-            if (pre_right) {
-                i++;
-                continue;
-            }
-        }
-        */
-        int _diff_ = benchmark[j].benchmark_svlen * percent_diff;
-
-
-        if (_diff_ > max_diff) {
-            _diff_ = max_diff;
-        }
-
-
-        if(call[i].call_brk1 < benchmark[j].benchmark_brk1 - _diff_)
-        {
-        //call 小于 benchmark坐标，则变异不存在。
-            fprintf(fp_res, "%s\t%d\t%d\t0\n", call[i].call_chrom, call[i].call_brk1,\
-                      call[i].call_brk2);
-            i++;
-        }
-        else if(call[i].call_brk1 > benchmark[j].benchmark_brk1 + _diff_)
-        {
-        //call 大于 benchmark坐标，bench指针下移。
-            j++;
-        }
-        else
-        {
-            if(abs(call[i].call_brk2 - benchmark[j].benchmark_brk2) <= _diff_)
+    bool flag;
+    for (i = 0; i < call_cnt; ++i) {
+        for(flag =false, j = 0; j < benchmark_cnt; j++) {
+            if(abs(call[i].call_brk1 - benchmark[j].benchmark_brk1) <= benchmark[j]._diff_ &&\
+               abs(call[i].call_brk2 - benchmark[j].benchmark_brk2) <= benchmark[j]._diff_)
             {
-                fprintf(fp_res, "%s\t%d\t%d\t1\n", call[i].call_chrom, call[i].call_brk1, call[i].call_brk2);
-                right++;
+                if (!flag) {
+                    fprintf(fp_res, "%s\t%d\t%d\t1\n", call[i].call_chrom, call[i].call_brk1, call[i].call_brk2);
+                    right++;
+                    flag = true;
+                }
                 benchmark[j].flag_find = true;
-                i++;
-                continue;
             }
-            else
-                j++;
+            if(call[i].call_brk1 < benchmark[j].benchmark_brk1 - benchmark[j]._diff_)
+                break;
         }
-    }
-    while(i < call_cnt)
-    {
-        fprintf(fp_res, "%s\t%d\t%d\t0\n", call[i].call_chrom, call[i].call_brk1, call[i].call_brk2);
-        i++;
+        if (flag == false) {
+            fprintf(fp_res, "%s\t%d\t%d\t0\n", call[i].call_chrom, call[i].call_brk1, call[i].call_brk2);
+        }
     }
     int  bench_c;
-    bench_c = benchmark_cnt-benchmark_overlap;
+    //bench_c = benchmark_cnt-benchmark_overlap;
+    bench_c = benchmark_cnt;
     int benchmark_find_cnt = 0;
     for (i = 0; i < benchmark_cnt; i++) {
-        if (benchmark[i].flag_find) benchmark_find_cnt++;
+        if (benchmark[i].flag_find)
+            benchmark_find_cnt++;
     }
-    //fprintf(stdout, "filename\tcall_cnt-call_overlap\tbenchmark_cnt-benchmark_overlap\tright_cnt\tprecision\trecall\n");
-    //fprintf(stdout, "%s %d-%d=%d %d-%d=%d %d %.2f %.2f\n", filename, call_cnt, call_overlap, call_c, benchmark_cnt, benchmark_overlap, bench_c, right, right*1.0/(call_c), right*1.0/(bench_c));
-    //fprintf(stdout, "%s %d %d %d %.2f %.2f\n", filename, call_c, bench_c, right, right*1.0/(call_c), right*1.0/(bench_c));
     fprintf(stdout, "%s\t%d\t%d\t%d\t%d\t%.3f\t%.3f\n", filename, call_cnt, bench_c, right, benchmark_find_cnt, right*1.0/(call_cnt), benchmark_find_cnt*1.0/(bench_c));
-
     return 0;
 }
