@@ -12,14 +12,13 @@ done
 
 
 function verify() {
-	filename=out.${1}.${prefix}
+	filename=out.${1}.${sample_chr}
 	verify-deletion $diff ${filename}.format $benchmark ${filename}.cmp >> res.${1}.txt
 }
 
-for bam in $(ls *.bam)
+for $sample_chr in $(cat $sample_chr_list)
 do
-	prefix=${bam%.bam}
-	benchmark=${prefix}.vcf
+	benchmark=${sample_chr}.$benchmark_suffix
 	
 	for caller in ${callers[@]}
 	do

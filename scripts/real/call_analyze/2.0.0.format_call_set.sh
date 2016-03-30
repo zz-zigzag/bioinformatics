@@ -1,9 +1,9 @@
 #!/bin/bash
 
-. 0.0.env.sh
+. *env*
 
 function format() {
-	filename=out.${1}.${prefix}
+	filename=out.${1}.${sample_chr}
 	case $1 in
 		pindel) awk '{if($3>=40 && $3<1000000) print $8"\t"$10"\t"$11"\tpindel" }' $filename | sort -n -k 2 > ${filename}.format;;
 		svseq) awk '{ if($6-$3>=40 && $6-$3<1000000) print $2"\t"$3"\t"$6"\tsvseq" }' $filename | sort -n -k 2 > ${filename}.format;;
@@ -15,15 +15,15 @@ function format() {
 	if [ $1 != integrated ]; then
 		cat ${filename}.format >> out.integrated.${prefix}
 	#else
+		#intersection -e 0.4 -m 200 $filename.format ${sample_chr}.benchmark.vcf
 		#merge_deletions $filename.format $filename.format.merge && mv $filename.format.merge $filename.format
 	fi
 }
 
 
-for bam in $(ls *.bam)
+for $sample_chr in $(cat $sample_chr_list)
 do
-	prefix=${bam%.bam}
-	> out.integrated.${prefix}
+	> out.integrated.${sample_chr}
 	
 	for caller in ${callers[@]}
 	do

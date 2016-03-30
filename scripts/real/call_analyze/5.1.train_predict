@@ -10,7 +10,7 @@ Options: -t kernel_type see libsvm[2]"
 
 if [ $# -lt 1 ]
 then
-	help; exit 1;
+	help; return;
 fi
 
 t=2
@@ -21,7 +21,7 @@ fi
 
 if [ $t -lt 0 -o $t -gt 3 ]
 then
-	help; exit 1;
+	help; return;
 fi
 
 . *env*
@@ -31,7 +31,6 @@ rm *.scale
 formatDataToLibsvm $1 $1.data
 svm-scale -r train.range $1.data > $1.scale
 
-status=res._e${diffP}_m${diffM}.txt
 data=$1
 
 foo()
@@ -45,7 +44,7 @@ foo()
 	
 	echo $command
 	eval $command
-	. 4.1.predict.sh $data.scale.$num.model $num
+	. 5.0.predict.sh $data.scale.$num.model $num
 }
 
 
@@ -54,7 +53,7 @@ t0()
 	for c in ${C[@]}
 	do
 		wait
-		echo  "c: $c" >> $status
+		echo  "c: $c" >> $stats_file
 		for((j=10;j<=100;j=j+5))
 		do
 			num=`echo $j*0.1|bc`
@@ -71,7 +70,7 @@ t1()
 		for c in ${C[@]}
 		do
 	   		wait
-		    echo  "c/d: $c/$d  " >> $status
+		    echo  "c/d: $c/$d  " >> $stats_file
 			for((j=10;j<=100;j=j+5))
 			do
 				num=`echo $j*0.1|bc`
@@ -88,7 +87,7 @@ t2()
 		for c in ${C[@]}
 		do
 	   		wait
-			echo  "c/g: $c/$g  " >> $status
+			echo  "c/g: $c/$g  " >> $stats_file
 			for((j=10;j<=100;j=j+5))
 			do
 				num=`echo $j*0.1|bc`
@@ -105,7 +104,7 @@ t3()
 		for c in ${C[@]}
 		do
 	   		wait
-			echo  "c/g: $c/$g  " >> $status
+			echo  "c/g: $c/$g  " >> $stats_file
 			for((j=10;j<=100;j=j+5))
 			do
 				num=`echo $j*0.1|bc`
