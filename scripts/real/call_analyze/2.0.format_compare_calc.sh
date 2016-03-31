@@ -23,9 +23,9 @@ function format() {
 	
 	if [ $1 != integrated ]; then
 		cat ${filename}.format >> out.integrated.${sample_chr}
-	else
-		intersection -e 0.4 -m 200 $filename.format ${sample_chr}.benchmark.vcf
-		merge_variation -e 0.2 -m 200 $filename.format $filename.format.merge  && mv $filename.format.merge $filename.format
+	#else
+		#intersection -e 0.4 -m 200 $filename.format ${sample_chr}.benchmark.vcf
+		#merge_variation -e 0.2 -m 200 $filename.format $filename.format.merge  && mv $filename.format.merge $filename.format
 	fi
 }
 
@@ -35,7 +35,8 @@ function verify() {
 }
 
 
-for $sample_chr in $(cat $sample_chr_list)
+for sample_chr in $(cat $sample_chr_list)
+do
 	benchmark=${sample_chr}.$benchmark_suffix
 	> out.integrated.${sample_chr}
 	for caller in ${callers[@]}
