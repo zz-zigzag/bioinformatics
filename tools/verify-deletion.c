@@ -121,8 +121,10 @@ int main(int argc, char* argv[])
                     right++;
                     flag = true;
                 }
-                benchmark[j].flag_find = true;
-                break;
+                if (!benchmark[j].flag_find) {
+                    benchmark[j].flag_find = true;
+                    break;  //if //break; allow one result coverage different benchmark
+                }
             }
             if(call[i].call_brk1 < benchmark[j].benchmark_brk1 - benchmark[j]._diff_)
                 break;
