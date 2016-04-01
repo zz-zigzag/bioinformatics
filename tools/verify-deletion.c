@@ -28,8 +28,8 @@ static int usage()
     fprintf(stderr, "Version: %s\n", PACKAGE_VERSION);
     fprintf(stderr, "Contact: zz_zigzag <zz_zigzag@outlook.com>\n\n");
     fprintf(stderr, "Usage:   verify_deletion [option] <call_data> <benchmark_data> <compare_result>\n");
-    fprintf(stderr, "Options: -e FLOAT maximum allowed deviation is -e*sv_length [0.1]\n");
-    fprintf(stderr, "         -m INT   maximum allowed deviation [100]\n");
+    fprintf(stderr, "Options: -e FLOAT maximum percent deviation of breakpoint (-e*sv_length) [0.1]\n");
+    fprintf(stderr, "         -m INT   maximum base deviation of breakpoint [100]\n");
     fprintf(stderr, "Note:    All deletion need to be sorted by coordinate and in one chromosome.\n");
     fprintf(stderr, "         format of call_data: chromosome start end ...\n");
     fprintf(stderr, "         format of benchmark_data: chromosome start end ... \n");
@@ -122,6 +122,7 @@ int main(int argc, char* argv[])
                     flag = true;
                 }
                 benchmark[j].flag_find = true;
+                break;
             }
             if(call[i].call_brk1 < benchmark[j].benchmark_brk1 - benchmark[j]._diff_)
                 break;

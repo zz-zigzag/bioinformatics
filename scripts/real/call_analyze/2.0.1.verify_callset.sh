@@ -16,7 +16,7 @@ function verify() {
 	verify-deletion $diff ${filename}.format $benchmark ${filename}.cmp >> res.${1}.txt
 }
 
-for $sample_chr in $(cat $sample_chr_list)
+for sample_chr in $(cat $sample_chr_list)
 do
 	benchmark=${sample_chr}.$benchmark_suffix
 	

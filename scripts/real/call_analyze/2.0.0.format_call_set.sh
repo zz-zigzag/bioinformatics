@@ -21,7 +21,7 @@ function format() {
 }
 
 
-for $sample_chr in $(cat $sample_chr_list)
+for sample_chr in $(cat $sample_chr_list)
 do
 	> out.integrated.${sample_chr}
 	
