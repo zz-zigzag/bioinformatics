@@ -7,21 +7,20 @@
 
 using namespace std;
 
-#define PACKAGE_VERSION "0.0.1"
+#define PACKAGE_VERSION "0.1.1"
 
 static int usage()
 {
     fprintf(stderr, "\n");
-    fprintf(stderr, "Program: merge_variation (merge variation by breakpoint\n");
+    fprintf(stderr, "Program: merge_variation (merge variation by breakpoint)\n");
     fprintf(stderr, "Version: %s\n", PACKAGE_VERSION);
     fprintf(stderr, "Contact: zz_zigzag <zz_zigzag@outlook.com>\n\n");
     fprintf(stderr, "Usage:   merge_variation [option] <in_file> <out_file>\n");
     fprintf(stderr, "         The input format is [chrom start end label] and sorted by chrom and start\n");
-    fprintf(stderr, "Options: -e FLOAT maximum allowed deviation is -e*sv_length [0.3]\n");
-    fprintf(stderr, "         -m INT   maximum allowed deviation [200]\n");
-    fprintf(stderr, "         -s STR   label of callers in priorities.\n");
+    fprintf(stderr, "Options: -e FLOAT maximum percent deviation of breakpoint (-e*sv_length) [0.3]\n");
+    fprintf(stderr, "         -m INT   maximum base deviation of breakpoint [200]\n");
+    fprintf(stderr, "         -s STR   label of callers in priorities [pindel/svseq/delly/breakdancer]\n");
     fprintf(stderr, "         -h       output detail.\n");
-    fprintf(stderr, "                  E.g. [pindel/svseq/delly/breakdancer]\n");
     return 1;
 }
 

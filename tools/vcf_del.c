@@ -26,7 +26,7 @@ static int usage()
     fprintf(stderr, "         -g        output with the genotype of individual.\n");
     fprintf(stderr, "         -c STRING the chromosome to output(default all).\n");
     fprintf(stderr, "         -n STRING the sample to output(need -g, default all).\n");
-    fprintf(stderr, "         -i INT    the minimum length limit for deletions(default 0).\n");
+    fprintf(stderr, "         -i INT    the minimum length for deletions(default 0).\n");
     return 1;
 }
 

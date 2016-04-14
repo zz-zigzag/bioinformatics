@@ -12,16 +12,15 @@ using namespace std;
 static int usage()
 {
     fprintf(stderr, "\n");
-    fprintf(stderr, "Program: intersection (find the intersection in result of various caller.\n");
+    fprintf(stderr, "Program: intersection (find the intersection in result of various caller.)\n");
     fprintf(stderr, "Version: %s\n", PACKAGE_VERSION);
     fprintf(stderr, "Contact: zz_zigzag <zz_zigzag@outlook.com>\n\n");
     fprintf(stderr, "Usage:   intersection [option] <in_file> <out_file>\n");
     fprintf(stderr, "         The input format is [chrom start end label] and sorted by chrom and start\n");
     fprintf(stderr, "Options: -n INT   minimum number of intersected sets.[2]\n");
-    fprintf(stderr, "         -e FLOAT maximum allowed deviation is -e*sv_length [0.4]\n");
-    fprintf(stderr, "         -m INT   maximum allowed deviation [200]\n");
-    fprintf(stderr, "         -s STR   label of callers in priorities.\n");
-    fprintf(stderr, "                  E.g. [pindel/svseq/delly/breakdancer]\n");
+    fprintf(stderr, "         -e FLOAT maximum percent deviation of breakpoint (-e*sv_length) [0.4]\n");
+    fprintf(stderr, "         -m INT   maximum base deviation of breakpoint [200]\n");
+    fprintf(stderr, "         -s STR   label of callers in priorities. [pindel/svseq/delly/breakdancer]\n");
     return 1;
 }
 
