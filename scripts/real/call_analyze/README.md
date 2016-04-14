@@ -5,8 +5,8 @@
 
 
 ## 1: pre-processing
-- `1.0.simplify_pindel_call_set` get pindel simple result from raw call set
-- `1.1.simplify_svseq_call_set.sh` get svseq simple result from raw call set
+- `1.0.simplify_pindel_callset` get pindel simple result from raw call set
+- `1.1.simplify_svseq_callset.sh` get svseq simple result from raw call set
 - `1.2.format_vcf.sh` get sample's benchmark if have
 
 ## 2: verify variation

@@ -26,7 +26,7 @@ fi
 
 . *env*
 
-rm *.scale
+
 
 formatDataToLibsvm $1 $1.data
 svm-scale -r train.range $1.data > $1.scale
@@ -44,6 +44,7 @@ foo()
 	
 	echo $command
 	eval $command
+	echo ". 5.0.predict.sh $data.scale.$num.model $num"
 	. 5.0.predict.sh $data.scale.$num.model $num
 }
 
@@ -115,5 +116,5 @@ t3()
 }
 
 t$t
-
+wait
 
