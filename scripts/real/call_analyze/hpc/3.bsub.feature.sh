@@ -1,26 +1,14 @@
 #!/bin/bash
 
 . *env*
-#DeletionFeatures
-#SimpleFeature
-extract="DeletionFeatures -D $diff"
 
-cov=""
-if [ x$1 != x ]
-then
-	cov=_$1
-fi
+extract="SVfeature -D $diff"
+
 
 for i in `seq 1 22`
 do
-#<<o
-	if [ x$i == x1 -o x$i == x2 -o x$i == x10 -o x$i == x16 ]
-	then
-		continue
-	fi
-#o
     chr=chr$i
-    echo ${sample}_$chr$cov.bam 101 300 70 out.integrated.${sample}_$chr.cmp > list_$chr$cov
-    echo bsub -q $queue -o %J.${sample}_$chr$cov.feature.out $extract -b list_$chr$cov
-    bsub -q $queue -o %J.${sample}_$chr$cov.feature.out $extract -b list_$chr$cov
+    echo ${sample}_$chr$downsample.bam 101 300 70 out.integrated.${sample}_$chr$downsample.format > list_$chr$downsample
+    echo bsub -q $queue -o %J.${sample}_$chr$downsample.feature.out $extract -b list_$chr$downsample
+    bsub -q $queue -o %J.${sample}_$chr$downsample.feature.out $extract -b list_$chr$downsample
 done

@@ -1,4 +1,4 @@
-sed -n '/^0/p' res._e0.3_m1000.txt | awk '{print $0,$1*2*$2/($1+$2)}' | sort -k3
+sed -n '/^0/p' res._e0.5_m1000.txt | sort -k3
 
 # stats
 ls *integrated*format | xargs wc -l

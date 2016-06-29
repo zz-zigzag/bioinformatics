@@ -2,12 +2,12 @@
 
 . *env*
 
-if [ -f ./$sample_chr_list ]; then
+if [ -f $sample_chr_list ]; then
 	mv $sample_chr_list $sample_chr_list.old
 fi
 
-if [ -f ./$sample_list ]; then
-	mv $sampler_list $sample_list.old
+if [ -f $sample_list ]; then
+	mv $sample_list $sample_list.old
 fi
 
 for file in `ls *.bam`

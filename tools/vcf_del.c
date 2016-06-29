@@ -24,6 +24,7 @@ static int usage()
     fprintf(stderr, "Options: -f        remove the overlapping deletions\n");
     fprintf(stderr, "                   and only include the pure deletions.\n");
     fprintf(stderr, "         -g        output with the genotype of individual.\n");
+    fprintf(stderr, "         -o        only output the genotype of deletion existed\n");
     fprintf(stderr, "         -c STRING the chromosome to output(default all).\n");
     fprintf(stderr, "         -n STRING the sample to output(need -g, default all).\n");
     fprintf(stderr, "         -i INT    the minimum length for deletions(default 0).\n");
@@ -58,6 +59,7 @@ int main(int argc, char* argv[])
     int filterMode = 0;
     int minL = 0;
     int outGenotype = 0;
+    int onlyExist = 0;
     char *chromosome = NULL;
     char *indiName = NULL;
     while((c = getopt(argc, argv, "fgi:c:n:")) != EOF)
@@ -66,6 +68,7 @@ int main(int argc, char* argv[])
         {
             case 'f': filterMode = 1; break;
             case 'g': outGenotype = 1; break;
+            case 'o': onlyExist = 1; break;
             case 'c': chromosome = optarg; break;
             case 'n': indiName = optarg; break;
             case 'i': minL = atoi(optarg); break;
@@ -209,10 +212,9 @@ int main(int argc, char* argv[])
             {
                 while((s_tab = strtok_r(NULL, "\t", &str_tab)) != NULL)
                 {
-                    if(indiCnt == indiNum)
+                    if(indiCnt == indiNum)  //find the sample
                     {
-                        //find the sample
-                        if(s_tab[0] != '0' || s_tab[2] != '0')
+                        if(onlyExist == 0 || s_tab[0] != '0' || s_tab[2] != '0' )
                         {
                             //if the sample don't have the variant
                             //pass

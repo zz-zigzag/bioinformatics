@@ -10,7 +10,7 @@ Options: -t kernel_type see libsvm[2]"
 
 if [ $# -lt 1 ]
 then
-	help; return;
+	help; exit;
 fi
 
 t=2
@@ -21,31 +21,26 @@ fi
 
 if [ $t -lt 0 -o $t -gt 3 ]
 then
-	help; return;
+	help; exit;
 fi
 
 . *env*
-
-
-
-formatDataToLibsvm $1 $1.data
-svm-scale -r train.range $1.data > $1.scale
 
 data=$1
 
 foo()
 {
 	case $t in
-		0) command="svm-train -t 0 -c $c -w1 $num -q $data.scale $data.scale.$num.model" ;;
-		1) command="svm-train -t 1 -d $d -c $c -w1 $num -q $data.scale $data.scale.$num.model" ;;
-		2) command="svm-train -c $c -g $g -w1 $num -q $data.scale $data.scale.$num.model" ;;
-		3) command="svm-train -t 3 -c $c -g $g -w1 $num -q $data.scale $data.scale.$num.model" ;;
+		0) command="svm-train -t 0 -c $c -w1 $num -q $data $data.$num.model" ;;
+		1) command="svm-train -t 1 -d $d -c $c -w1 $num -q $data $data.$num.model" ;;
+		2) command="svm-train -c $c -g $g -w1 $num -q $data $data.$num.model" ;;
+		3) command="svm-train -t 3 -c $c -g $g -w1 $num -q $data $data.$num.model" ;;
 	esac
 	
 	echo $command
 	eval $command
-	echo ". 5.0.predict.sh $data.scale.$num.model $num"
-	. 5.0.predict.sh $data.scale.$num.model $num
+	echo ". 5.0.predict.sh $data.$num.model $num"
+	. 5.0.predict.sh $data.$num.model $num
 }
 
 
@@ -83,9 +78,9 @@ t1()
 
 t2()
 {
-	for g in ${G[@]}
+	for c in ${C[@]}
 	do
-		for c in ${C[@]}
+		for g in ${G[@]}
 		do
 	   		wait
 			echo  "c/g: $c/$g  " >> $stats_file

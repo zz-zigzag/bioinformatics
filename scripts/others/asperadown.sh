@@ -3,7 +3,7 @@
 help()
 {
 	echo "
-Program: asperdown.sh (download files from ncbi/ebi)
+Program: asperadown.sh (download files from ncbi/ebi)
 Version: 0.2.0
 Contact: zz_zigzag <zz_zigzag@outlook.com>
 

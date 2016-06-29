@@ -2,4 +2,4 @@
 
 . *env*
 
-SVfeature -D $diff -b sample_info.list
+SVfeature -D $diff -b list.txt
