@@ -1,2 +1,4 @@
 #!/bin/sh
+
+# used in HPC
 bkill `bjobs | grep ^[0-9] | awk '{print $1}' `

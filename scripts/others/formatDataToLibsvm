@@ -1,8 +1,14 @@
 #!/bin/sh
 
-if [ $# != 2 ]
+if [ $# -lt 1 ]
 then
 	echo "Usage: formatDataToLibsvm <in.txt> <out.txt>"
 else
-	awk '{printf $1; for (i = 2; i <= NF; ++i){ printf "\t"i-1":"$i ;} printf "\n";}' $1 > $2
+    if [ x$2 != x ]
+    then
+        out=$2
+    else
+        out=${1}.data
+    fi
+	awk '{printf $1; for (i = 2; i <= NF; ++i){ printf "\t"i-1":"$i ;} printf "\n";}' $1 > $out
 fi

@@ -5,11 +5,17 @@ callers=("pindel" "svseq" "breakdancer" "delly" "merged_candidate")
 
 sample_list=./list/sample.list
 sample_chr_list=./list/sample_chr.list
+
+isTest=0 # 0 or 1
 test_sample_chr_list=./list/test_sample_chr.list
+
+
 sample=NA12878
+downsample=_0.25
 
 # vcf
 vcf_file=~/NGS_Data/released/1000G.phase3.integrated_sv_map/1000G.phase3.del.genotypes.vcf
+isBenchmarkIntersection=0
 #benchmark_suffix=benchmark.vcf
 benchmark_suffix=vcf
 

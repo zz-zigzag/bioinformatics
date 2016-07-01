@@ -28,7 +28,9 @@ function format() {
 		if [ $1 != "merged_candidate" ]; then
 			cat $format >> out.merged_candidate.$sample_chr
 		else
-			#intersection -e 0.4 -m 200 $filename.format $sample_chr.benchmark.vcf
+			if [ x$isBenchmarkIntersection == x1 ]; then
+				intersection -n 2 -e 0.4 -m 200 $filename.format $benchmark
+			fi
 			merge_variation -e 0.2 -m 200 $filename.format $filename.format.merge  && mv $filename.format.merge $filename.format
 		fi
 	else
@@ -39,17 +41,29 @@ function format() {
 function verify() {
 	filename=out.$1.$sample_chr
 	format=$filename.format
-	verify-deletion $diff $format$callset_suffix $benchmark $format$callset_suffix.cmp >> res.$1.txt
+	verify-deletion $diff $format$callset_suffix $benchmark $filename$callset_suffix.cmp >> res.$1.txt
 }
 
+if [ x$isTest == x1 ]; then
+	sample_chr_list=$test_sample_chr_list
+fi
 
-for sample_chr in $(cat $test_sample_chr_list)
+for sample_chr in $(cat $sample_chr_list)
 do
-	benchmark=$sample_chr.$benchmark_suffix
+	if [ x$downsample != x ]; then
+		benchmark=${sample_chr%_*}.$benchmark_suffix
+	else
+		benchmark=$sample_chr.$benchmark_suffix
+	fi
+	
 	> out.merged_candidate.$sample_chr
 	for caller in ${callers[@]}
 	do
 		format $caller
+	done
+	
+	for caller in ${callers[@]}
+	do
 		verify $caller
 	done
 done

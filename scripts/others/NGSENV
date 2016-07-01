@@ -2,6 +2,7 @@
 ### NGS ENVIRONMENT
 export NGS_DATA="${HOME}/NGS_Data"
 export NGS_TOOL="${HOME}/NGS_Tools"
+export CodeBlocks=${HOME}/文档/codeblocks
 
 export ref=${NGS_DATA}/Reference
 export GRCh37=${ref}/GRCh37/human_g1k_v37.fasta
@@ -14,3 +15,4 @@ export GATK="${NGS_TOOL}/GenomeAnalysisTK-3.3-0/GenomeAnalysisTK.jar"
 export varscan="${NGS_TOOL}/VarScan-2.3.7/VarScan.v2.3.7.jar"
 export PRISM_PATH="${NGS_TOOL}/PRISM_1_1_6"
 export genome_strip="${NGS_TOOL}/svtoolkit"
+export igv="/home/zz_zigzag/NGS_Tools/IGV_2.3.40/igv.jar"
