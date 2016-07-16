@@ -28,7 +28,7 @@ function format() {
 		if [ $1 != "merged_candidate" ]; then
 			cat $format >> out.merged_candidate.$sample_chr
 		else
-			if [ x$isBenchmarkIntersection == x1 ]; then
+			if [ x$needCreatBenchmark == x1 ]; then
 				intersection -n 2 -e 0.4 -m 200 $filename.format $benchmark
 			fi
 			merge_variation -e 0.2 -m 200 $filename.format $filename.format.merge  && mv $filename.format.merge $filename.format
