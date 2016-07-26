@@ -1,7 +1,7 @@
 sed -n '/^0/p' res._e0.5_m1000.txt | sort -k3
 
 # stats
-ls *integrated*format | xargs wc -l
+ls *merged*format | xargs wc -l
 ls *bench*vcf | xargs wc -l
 
 #train model in hpc

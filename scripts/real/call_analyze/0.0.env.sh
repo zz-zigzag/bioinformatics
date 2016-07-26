@@ -13,9 +13,9 @@ downsample=_0.25
 
 # vcf
 vcf_file=~/NGS_Data/released/1000G.phase3.integrated_sv_map/1000G.phase3.del.genotypes.vcf
-needCreatBenchmark=1
-#benchmark_suffix=benchmark.vcf
-benchmark_suffix=vcf
+needCreatBenchmark=0
+benchmark_suffix=benchmark.vcf
+#benchmark_suffix=vcf
 
 # slice callset
 callset_suffix=

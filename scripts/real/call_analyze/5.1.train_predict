@@ -30,17 +30,21 @@ data=$1
 
 foo()
 {
+	model=$data.${c}_${g}_$num.model
 	case $t in
-		0) command="svm-train -t 0 -c $c -w1 $num -q $data $data.$num.model" ;;
-		1) command="svm-train -t 1 -d $d -c $c -w1 $num -q $data $data.$num.model" ;;
-		2) command="svm-train -c $c -g $g -w1 $num -q $data $data.$num.model" ;;
-		3) command="svm-train -t 3 -c $c -g $g -w1 $num -q $data $data.$num.model" ;;
+		0) command="svm-train -t 0 -c $c -w1 $num -q $data $model" ;;
+		1) command="svm-train -t 1 -d $d -c $c -w1 $num -q $data $model" ;;
+		2) command="svm-train -c $c -g $g -w1 $num -q $data $model" ;;
+		3) command="svm-train -t 3 -c $c -g $g -w1 $num -q $data $model" ;;
 	esac
 	
 	echo $command
+	if [ ! -f $data.${c}_${g}_$num.model ]; then
+		eval $command
+	fi
+	command=". 5.0.predict.sh $model $num"
+	echo $command
 	eval $command
-	echo ". 5.0.predict.sh $data.$num.model $num"
-	. 5.0.predict.sh $data.$num.model $num
 }
 
 
@@ -84,7 +88,7 @@ t2()
 		do
 	   		wait
 			echo  "c/g: $c/$g  " >> $stats_file
-			for((j=10;j<=100;j=j+5))
+			for((j=10;j<=100;j=j+10))
 			do
 				num=`echo $j*0.1|bc`
 				foo &

@@ -10,9 +10,9 @@
 - `1.2.format_vcf.sh` get sample's benchmark if have
 
 ## 2: verify variation
-- `2.0.0.format_call_set.sh` format raw call set to `chr start_pos end_pos label` and get benchmark from insection of call set if need
-- `2.0.1.compare_callset.sh` verify variation for each sample and output result to `res.$caller.txt`
-- `2.0.2.calculate_stats.sh` output stats for callers and output result to `$stats_file$`
+- format raw call set to `chr start_pos end_pos label` and get benchmark from insection of call set if need
+- verify variation for each sample and output result to `res.$caller.txt`
+- output stats for callers and output result to `$stats_file$`
 - `2.0.format_compare_calc.sh` do all above
 
 ## 3: collect feature

@@ -24,7 +24,12 @@ fi
 
 for sample_chr in $(cat $test_sample_chr_list)
 do
-	benchmark=${sample_chr}.$benchmark_suffix
+	if [ x$downsample != x ]; then
+		benchmark=${sample_chr%_*}.$benchmark_suffix
+	else
+		benchmark=$sample_chr.$benchmark_suffix
+	fi
+	
 	validated=out.validated.$sample_chr$FILEID
 	val_format=$validated.format
 	
