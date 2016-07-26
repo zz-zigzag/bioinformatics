@@ -22,7 +22,7 @@ callset_suffix=
 minL=50
 maxL=1000000
 
-#allow diff
+# allow diff
 diffP=0.5
 diffM=1000
 diff="-e $diffP -m $diffM"
