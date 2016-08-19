@@ -23,6 +23,7 @@ function format() {
 			delly) vcf_del $filename $format > /dev/null && awk '{ if($3-$2>=50 && $3-$2<1000000) print $1"\t"$2"\t"$3"\tdelly" }' $format | sort -n -k 2 -o $format;;
 			# cnvnator) grep deletion $filename | awk '{print $2}' | sed 's/-/:/g'  | awk -F : '{if ($3-$2<1000000)print $1"\t"$2"\t"$3}' | sort -n -k 2 -o format;;
 			merged_candidate) sort -n -k 2 $filename -o $format;;
+			delfeature) ;;
 		esac
 		
 		if [ $1 != "merged_candidate" ]; then
@@ -50,17 +51,20 @@ fi
 
 for sample_chr in $(cat $sample_chr_list)
 do
-	if [ x$downsample != x ]; then
+	if [ x$downsample == x1 ]; then
 		benchmark=${sample_chr%_*}.$benchmark_suffix
 	else
 		benchmark=$sample_chr.$benchmark_suffix
 	fi
-	
-	> out.merged_candidate.$sample_chr
-	for caller in ${callers[@]}
-	do
-		format $caller
-	done
+	# benchmark=out.delly.$sample_chr.format 	# for venn
+	# benchmark=${sample_chr#*_}.vcf 			# for different {chr1.vcf}, used in trio validated
+	if [ x$needFormatCallset == x1 ]; then  	#
+		> out.merged_candidate.$sample_chr
+		for caller in ${callers[@]}
+		do
+			format $caller
+		done
+	fi
 	
 	for caller in ${callers[@]}
 	do
