@@ -43,8 +43,8 @@ int main(int argc, char *argv[])
     fpin = fpout = NULL;
 
     if(argc != 2) return usage();
-	openFile(&fpin, argv[1], "r");
-	openFile(&out_file_list, "file_list.txt", "w");
+    openFile(&fpin, argv[1], "r");
+    openFile(&out_file_list, "file_list.txt", "w");
 
     while(!feof(fpin))
     {
@@ -58,8 +58,8 @@ int main(int argc, char *argv[])
             }
             sscanf(&line[1], "%s", filename);
             sprintf(filename, "%s.fa", filename);
-			openFile(&fpout, filename, "w");
-			fprintf(out_file_list, "%s", line);
+            openFile(&fpout, filename, "w");
+            fprintf(out_file_list, "%s", line);
         }
         fputs(line, fpout);
     }
