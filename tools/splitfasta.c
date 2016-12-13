@@ -25,6 +25,16 @@ static int usage(void )
 
 }
 
+void openFile(FILE **file, const char *filename, const char *type)
+{
+    if((*file = fopen(filename, type)) == NULL)
+    {
+       perror(filename);
+       exit(1);
+    }
+    return ;
+}
+
 int main(int argc, char *argv[])
 {
     char line[MAX_LINE_BYTE], filename[MAX_LINE_BYTE];
@@ -33,18 +43,9 @@ int main(int argc, char *argv[])
     fpin = fpout = NULL;
 
     if(argc != 2) return usage();
-    fpin = fopen(argv[1], "r");
-    if(!fpin)
-    {
-        fprintf(stderr, "[splitfasta] %s file open error\n", argv[1]);
-        return 1;
-    }
-    out_file_list = fopen("file_list.txt", "w");
-    if(!out_file_list)
-    {
-        fprintf(stderr, "[splitfasta] file_list.txt file open error\n");
-        return 1;
-    }
+	openFile(&fpin, argv[1], "r");
+	openFile(&out_file_list, "file_list.txt", "w");
+
     while(!feof(fpin))
     {
         fgets(line, MAX_LINE_BYTE, fpin);
@@ -57,15 +58,8 @@ int main(int argc, char *argv[])
             }
             sscanf(&line[1], "%s", filename);
             sprintf(filename, "%s.fa", filename);
-            fpout = fopen(filename, "w");
-            {
-                if(!fpout)
-                {
-                    fprintf(stderr, "[splitfasta] %s file open error\n", filename);
-                    return 1;
-                }
-                fprintf(out_file_list, "%s", line);
-            }
+			openFile(&fpout, filename, "w");
+			fprintf(out_file_list, "%s", line);
         }
         fputs(line, fpout);
     }
